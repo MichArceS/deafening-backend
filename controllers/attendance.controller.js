@@ -24,7 +24,7 @@ exports.new = async function (req, res, next) {
         await Sequelize.sequelize.transaction(async (t) => {
             await asistencia.create({
                 fecha: Date.parse(req.body.fecha),
-                is_recuperando: parseInt(req.body.recuperando),
+                is_recuperando: req.body.recuperando,
                 id_estudiante: parseInt(req.body.estudiante),
             }, { transaction: t }).then(async (assis) => {
                 res.status(200).send({ message: 'Succesfully created' })

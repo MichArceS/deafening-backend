@@ -1,17 +1,16 @@
-
-const estudiante = require('../models').Student
+const clase = require('../models').Lesson
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
 exports.getAll = async function (req, res, next) {
     try {
-        await estudiante.findAll({
+        await clase.findAll({
             where: {
                 state: 'A'
             }
         })
-            .then(estudiantes => {
-                res.json(estudiantes)
+            .then(clases => {
+                res.json(clases)
             })
     } catch (error) {
         res.status(400).send({ message: error.message })
@@ -21,17 +20,12 @@ exports.getAll = async function (req, res, next) {
 exports.new = async function (req, res, next) {
     try {
         await Sequelize.sequelize.transaction(async (t) => {
-            await estudiante.create({
-                nombre: req.body.nombre,
-                cedula: req.body.cedula,
-                correo: req.body.correo,
-                convencional: req.body.convencional,
-                telefono: req.body.telefono,
-                telefono_emergencia: req.body.telefono_emergencia,
-                alergias: req.body.alergias,
-                direccion: req.body.direccion,
-                id_representante: parseInt(req.body.representante)
-            }, { transaction: t }).then(async (est) => {
+            await clase.create({
+                id_teacher: parseInt(req.body.profesor),
+                id_style: parseInt(req.body.estilo),
+                id_user: parseInt(req.body.usuario),
+                fecha: Date.parse(req.body.fecha),
+            }, { transaction: t }).then(async (cl) => {
                 res.status(200).send({ message: 'Succesfully created' })
             })
         })
@@ -43,16 +37,11 @@ exports.new = async function (req, res, next) {
 exports.update = async function (req, res, next) {
     try {
         await Sequelize.sequelize.transaction(async (t) => {
-            const p = await estudiante.update({
-                nombre: req.body.nombre,
-                cedula: req.body.cedula,
-                correo: req.body.correo,
-                convencional: req.body.convencional,
-                telefono: req.body.telefono,
-                telefono_emergencia: req.body.telefono_emergencia,
-                alergias: req.body.alergias,
-                direccion: req.body.direccion,
-                id_representante: parseInt(req.body.representante),
+            const p = await clase.update({
+                id_teacher: parseInt(req.body.profesor),
+                id_style: parseInt(req.body.estilo),
+                id_user: parseInt(req.body.usuario),
+                fecha: Date.parse(req.body.fecha),
                 audUpdatedAt: Date.now()
             }, {
                 where: { id: parseInt(req.body.id, 10) }
@@ -67,7 +56,7 @@ exports.update = async function (req, res, next) {
 exports.disable = async function (req, res, next) {
     try {
         await Sequelize.sequelize.transaction(async (t) => {
-            const p = await estudiante.update({
+            const p = await clase.update({
                 state: 'I',
                 audDeletedAt: Date.now()
             }, {
@@ -81,10 +70,10 @@ exports.disable = async function (req, res, next) {
     }
 }
 
-exports.getByID = async function (req, res, next) {
+exports.getByUserID = async function (req, res, next) {
     try {
         await estudiante.findAll({
-                where: { codigo: req.body.codigo, state: 'A' }
+                where: { id_user: parseInt(req.body.usuario), state: 'A' }
             })
             .then(estudiantes => {
                 res.json(estudiantes)

@@ -79,3 +79,17 @@ exports.disable = async function (req, res, next) {
         res.status(400).send({ message: error.message })
     }
 }
+
+exports.getByID = async function (req, res, next) {
+    try {
+        await representante.findAll({
+                where: { cedula: { [Op.iLike]: '%' + req.body.cedula + '%' }, state: 'A' },
+                attributes: ['id', 'nombre']
+            })
+            .then(representantes => {
+                res.json(representantes)
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+}

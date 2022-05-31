@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Lesson.belongsTo(models.Teacher, { foreignKey: 'id_teacher'})
       Lesson.belongsTo(models.Style, { foreignKey: 'id_style'})
+      Lesson.belongsTo(models.User, { foreignKey: 'id_user'})
     }
   };
   Lesson.init({
@@ -22,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     id_style: {
       field: 'id_style',
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    id_user: {
+      field: 'id_user',
       type: DataTypes.INTEGER,
       allowNull: false
     },

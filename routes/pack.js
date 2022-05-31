@@ -2,12 +2,20 @@ const express = require('express')
 const router = express.Router()
 const pack = require('../controllers/pack.controller')
 
-router.get('/getAll', pack.getAll)
+router.get('/getAll',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    pack.getAll)
 
-router.post('/new', pack.new)
+router.post('/new',
+    [authJwt.verifyToken, authJwt.isAdmin],
+     pack.new)
 
-router.post('/update', pack.update)
+router.post('/update',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    pack.update)
 
-router.post('/disable', pack.disable)
+router.post('/disable',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    pack.disable)
 
 module.exports = router

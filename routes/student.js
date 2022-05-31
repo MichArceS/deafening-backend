@@ -1,13 +1,26 @@
 const express = require('express')
 const router = express.Router()
+const authJwt = require('../middleware/authJwt')
 const student = require('../controllers/student.controller')
 
-router.get('/getAll', student.getAll)
+router.get('/getAll',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    student.getAll)
 
-router.post('/new', student.new)
+router.post('/new',
+    [authJwt.verifyToken, authJwt.isAdmin], 
+    student.new)
 
-router.post('/update', student.update)
+router.post('/update',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    student.update)
 
-router.post('/disable', student.disable)
+router.post('/disable',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    student.disable)
+
+router.get('/getByDocument',
+    [authJwt.verifyToken, authJwt.isAssistant],
+    student.getByID)
 
 module.exports = router
