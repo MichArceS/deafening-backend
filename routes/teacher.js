@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const teacher = require('../controllers/teacher.controller')
+const authJwt = require('../middleware/authJwt')
 
 router.get('/getAll', 
     [authJwt.verifyToken, authJwt.isAdmin],

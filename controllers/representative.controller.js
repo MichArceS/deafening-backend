@@ -6,6 +6,8 @@ const Op = require('sequelize').Op
 exports.getAll = async function (req, res, next) {
     try {
         await representante.findAll({
+            limit: req.query.limit,
+            offset: req.query.offset,
             where: {
                 state: 'A'
             }

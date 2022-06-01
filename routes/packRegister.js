@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const authJwt = require('../middleware/authJwt')
 const packRegister = require('../controllers/packRegister.controller')
 
 router.get('/getAll', 

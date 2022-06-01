@@ -28,7 +28,7 @@ isAssistant = (req, res, next) => {
     User.findOne({
       where: {
         id: req.userId,
-        role: 'ASSISTANT',
+        rol: 'ASSISTANT',
         state: 'A'
       }
     }).then(obs => {
@@ -50,7 +50,7 @@ isAdmin = (req, res, next) => {
     User.findOne({
       where: {
         id: req.userId,
-        role: 'ADMIN',
+        rol: 'ADMIN',
         state: 'A'
       }
     }).then(user => {
@@ -73,7 +73,7 @@ isAssistantByEmail = (req, res, next) => {
     User.findOne({
       where: {
         correo: e,
-        role: 'ASSISTANT',
+        rol: 'ASSISTANT',
         state: 'A'
       }
     }).then(user => {
