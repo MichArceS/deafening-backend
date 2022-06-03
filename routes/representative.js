@@ -19,7 +19,7 @@ router.post('/disable',
     [authJwt.verifyToken, authJwt.isAdmin],
     representative.disable)
 
-router.get('/getByDocument',
+router.post('/getByDocument',
     [authJwt.verifyToken, authJwt.isAdmin],
     representative.getByID)
 
