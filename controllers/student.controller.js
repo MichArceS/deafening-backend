@@ -44,7 +44,7 @@ exports.new = async function (req, res, next) {
                 telefono_emergencia: req.body.telefono_emergencia,
                 alergias: req.body.alergias,
                 direccion: req.body.direccion,
-                foto: Buffer.from(a.buffer),
+                foto: Buffer.from(req.file.buffer),
                 id_representante: parseInt(req.body.representante)
             }, { transaction: t }).then(async (est) => {
                 res.status(200).send({ message: 'Succesfully created' })
