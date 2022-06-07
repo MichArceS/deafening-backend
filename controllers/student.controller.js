@@ -20,16 +20,31 @@ exports.getAll = async function (req, res, next) {
 
 exports.new = async function (req, res, next) {
     try {
+        let initialN = req.body.nombre.charAt(0)
+        let initialS = req.body.apellido.charAt(0)
+        let maxInt = estudiante.count() + 1
+        let str
+        if (maxInt < 10)
+            str = "00" + maxInt
+        if (maxInt >= 10 && maxInt < 100)
+            str = "0" + maxInt
+        else
+            str = maxInt + ""
+        let code = initialN + initialS + str
         await Sequelize.sequelize.transaction(async (t) => {
             await estudiante.create({
                 nombre: req.body.nombre,
+                apellido: req.body.apellido,
                 cedula: req.body.cedula,
+                codigo: code,
                 correo: req.body.correo,
                 convencional: req.body.convencional,
+                fecha_nacimiento: req.body.fecha,
                 telefono: req.body.telefono,
                 telefono_emergencia: req.body.telefono_emergencia,
                 alergias: req.body.alergias,
                 direccion: req.body.direccion,
+                foto: Buffer.from(a.buffer),
                 id_representante: parseInt(req.body.representante)
             }, { transaction: t }).then(async (est) => {
                 res.status(200).send({ message: 'Succesfully created' })
@@ -45,9 +60,12 @@ exports.update = async function (req, res, next) {
         await Sequelize.sequelize.transaction(async (t) => {
             const p = await estudiante.update({
                 nombre: req.body.nombre,
+                apellido: req.body.apellido,
                 cedula: req.body.cedula,
+                codigo: code,
                 correo: req.body.correo,
                 convencional: req.body.convencional,
+                fecha_nacimiento: req.body.fecha,
                 telefono: req.body.telefono,
                 telefono_emergencia: req.body.telefono_emergencia,
                 alergias: req.body.alergias,

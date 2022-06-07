@@ -15,7 +15,9 @@ module.exports = (sequelize, DataTypes) => {
   };
   Student.init({
     nombre: DataTypes.STRING,
+    apellido: DataTypes.STRING,
     cedula: DataTypes.STRING(10),
+    codigo: DataTypes.STRING(7),
     correo: {
       type: DataTypes.STRING,
       allowNull: true

@@ -69,3 +69,19 @@ exports.disable = async function (req, res, next) {
         res.status(400).send({ message: error.message })
     }
 }
+
+exports.getByStudent = async function (req, res, next) {
+    try {
+        await paquetesRegistro.findOne({
+            where: {
+                id_estudiante: parseInt(req.body.estudiante),
+                state: 'A'
+            }
+        })
+            .then(paquetesRegistros => {
+                res.json(paquetesRegistros)
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+}

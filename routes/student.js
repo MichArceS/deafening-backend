@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const authJwt = require('../middleware/authJwt')
+const multer = require('multer')
+const upload = multer({ storage: multer.memoryStorage() })
 const student = require('../controllers/student.controller')
 
 router.get('/getAll',
@@ -8,7 +10,8 @@ router.get('/getAll',
     student.getAll)
 
 router.post('/new',
-    [authJwt.verifyToken, authJwt.isAdmin], 
+    upload.single('file'),
+    [authJwt.verifyToken, authJwt.isAdmin],
     student.new)
 
 router.post('/update',
