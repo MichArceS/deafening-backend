@@ -28,7 +28,7 @@ exports.new = async function (req, res, next) {
         let str
         if (maxInt < 10)
             str = "00" + maxInt
-        if (maxInt >= 10 && maxInt < 100)
+        else if (maxInt >= 10 && maxInt < 100)
             str = "0" + maxInt
         else
             str = maxInt + ""
