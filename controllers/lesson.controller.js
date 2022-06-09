@@ -1,4 +1,6 @@
+
 const clase = require('../models').Lesson
+const claseEstudiante = require('../models').StudentLesson
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
@@ -70,10 +72,26 @@ exports.disable = async function (req, res, next) {
     }
 }
 
+exports.getByID = async function (req, res, next) {
+    try {
+        await clase.findAll({
+                where: { id: parseInt(req.query.id), state: 'A' }
+            })
+            .then(clases => {
+                res.json(clases)
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+}
+
 exports.getByUserID = async function (req, res, next) {
     try {
-        await estudiante.findAll({
-                where: { id_user: parseInt(req.body.usuario), state: 'A' }
+        await claseEstudiante.findAll({
+                where: { id_student: parseInt(req.query.usuario), state: 'A' },
+                include: [{
+                    model: clase, required: true, where: { state: 'A' } 
+                }]
             })
             .then(estudiantes => {
                 res.json(estudiantes)

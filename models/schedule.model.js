@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     hora_fin: DataTypes.STRING(20),
     horas: DataTypes.INTEGER,
     state: {
-      type: DataTypes.CHAR,
+      type: DataTypes.CHAR(1),
       defaultValue: 'A'
     },
     audCreatedAt: {

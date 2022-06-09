@@ -3,6 +3,19 @@ const pago = require('../models').Payment
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
+exports.getByID = async function (req, res, next) {
+    try {
+        await pago.findAll({
+                where: { id: req.query.id, state: 'A' }
+            })
+            .then(pagos => {
+                res.json(pagos)
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+}
+
 exports.getAll = async function (req, res, next) {
     try {
         await pago.findAll({

@@ -3,6 +3,19 @@ const paquetesRegistro = require('../models').PackRegister
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
+exports.getByID = async function (req, res, next) {
+    try {
+        await paquetesRegistro.findAll({
+                where: { id: req.query.id, state: 'A' }
+            })
+            .then(paquetes => {
+                res.json(paquetes)
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+}
+
 exports.getAll = async function (req, res, next) {
     try {
         await paquetesRegistro.findAll({

@@ -3,6 +3,10 @@ const router = express.Router()
 const style = require('../controllers/style.controller')
 const authJwt = require('../middleware/authJwt')
 
+router.get('/getByID',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    style.getByID)
+
 router.get('/getAll', 
     [authJwt.verifyToken, authJwt.isAdmin],
     style.getAll)

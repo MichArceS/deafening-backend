@@ -3,6 +3,19 @@ const profesorEstilo = require('../models').TeacherStyle
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
+exports.getByID = async function (req, res, next) {
+    try {
+        await profesorEstilo.findAll({
+                where: { id: req.query.id, state: 'A' }
+            })
+            .then(profesorEstilos => {
+                res.json(profesorEstilos)
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+}
+
 exports.getAll = async function (req, res, next) {
     try {
         await profesorEstilo.findAll({
@@ -17,7 +30,6 @@ exports.getAll = async function (req, res, next) {
         res.status(400).send({ message: error.message })
     }
 }
-
 
 exports.new = async function (req, res, next) {
     try {

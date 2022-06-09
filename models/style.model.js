@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     nombre: DataTypes.STRING,
     descripcion: DataTypes.STRING,
     state: {
-      type: DataTypes.CHAR,
+      type: DataTypes.CHAR(1),
       defaultValue: 'A'
     },
     audCreatedAt: {

@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Representative.init({
     nombre: DataTypes.STRING,
+    apellido: DataTypes.STRING,
     cedula: DataTypes.STRING,
     correo: DataTypes.STRING,
     convencional: DataTypes.STRING(10),
@@ -22,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     fecha_nacimiento: DataTypes.STRING,
     direccion: DataTypes.STRING,
     state: {
-      type: DataTypes.CHAR,
+      type: DataTypes.CHAR(1),
       defaultValue: 'A'
     },
     audCreatedAt: {

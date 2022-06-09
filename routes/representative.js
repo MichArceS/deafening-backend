@@ -3,6 +3,10 @@ const router = express.Router()
 const authJwt = require('../middleware/authJwt')
 const representative = require('../controllers/representative.controller')
 
+router.get('/getByID',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    representative.getByID)
+
 router.get('/getAll',
     [authJwt.verifyToken, authJwt.isAdmin],
     representative.getAll)

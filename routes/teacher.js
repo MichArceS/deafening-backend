@@ -3,6 +3,10 @@ const router = express.Router()
 const teacher = require('../controllers/teacher.controller')
 const authJwt = require('../middleware/authJwt')
 
+router.get('/getByID',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    teacher.getByID)
+
 router.get('/getAll', 
     [authJwt.verifyToken, authJwt.isAdmin],
     teacher.getAll)

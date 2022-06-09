@@ -1,5 +1,7 @@
 
 const estudiante = require('../models').Student
+const representante = require('../models').Representative
+const paquetesRegistro = require('../models').PackRegister
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
@@ -22,7 +24,7 @@ exports.new = async function (req, res, next) {
     try {
         let initialN = req.body.nombre.charAt(0)
         let initialS = req.body.apellido.charAt(0)
-        let maxInt = estudiante.count() + 1
+        let maxInt = await estudiante.count() + 1
         let str
         if (maxInt < 10)
             str = "00" + maxInt
@@ -45,7 +47,7 @@ exports.new = async function (req, res, next) {
                 alergias: req.body.alergias,
                 direccion: req.body.direccion,
                 foto: Buffer.from(req.file.buffer),
-                id_representante: parseInt(req.body.representante)
+                id_representante: req.body.representante ? parseInt(req.body.representante): null
             }, { transaction: t }).then(async (est) => {
                 res.status(200).send({ message: 'Succesfully created' })
             })
@@ -70,7 +72,8 @@ exports.update = async function (req, res, next) {
                 telefono_emergencia: req.body.telefono_emergencia,
                 alergias: req.body.alergias,
                 direccion: req.body.direccion,
-                id_representante: parseInt(req.body.representante),
+                foto: Buffer.from(req.file.buffer),
+                id_representante: req.body.representante ? parseInt(req.body.representante): null,
                 audUpdatedAt: Date.now()
             }, {
                 where: { id: parseInt(req.body.id, 10) }
@@ -102,7 +105,12 @@ exports.disable = async function (req, res, next) {
 exports.getByID = async function (req, res, next) {
     try {
         await estudiante.findAll({
-                where: { codigo: req.body.codigo, state: 'A' }
+                where: { codigo: req.query.codigo, state: 'A' },
+                include: [{
+                    model: representante, required: true, where: { state: 'A' }, attributes: ['id', 'nombre', 'apellido']
+                }, {
+                    model: paquetesRegistro, required: true
+                }]
             })
             .then(estudiantes => {
                 res.json(estudiantes)

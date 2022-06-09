@@ -15,8 +15,10 @@ router.post('/new',
     student.new)
 
 router.post('/update',
+    upload.single('file'),
     [authJwt.verifyToken, authJwt.isAdmin],
     student.update)
+
 
 router.post('/disable',
     [authJwt.verifyToken, authJwt.isAdmin],

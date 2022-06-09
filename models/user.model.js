@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     rol: DataTypes.STRING,
     state: {
-      type: DataTypes.CHAR,
+      type: DataTypes.CHAR(1),
       defaultValue: 'A'
     },
     audCreatedAt: {

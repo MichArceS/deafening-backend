@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     telefono_emergencia: DataTypes.STRING(10),
     fecha_nacimiento: DataTypes.STRING,
     alergias: DataTypes.STRING,
+    parentesco: DataTypes.STRING,
     direccion: DataTypes.STRING,
     foto: DataTypes.BLOB,
     id_representante: {
@@ -35,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     state: {
-      type: DataTypes.CHAR,
+      type: DataTypes.CHAR(1),
       defaultValue: 'A'
     },
     audCreatedAt: {

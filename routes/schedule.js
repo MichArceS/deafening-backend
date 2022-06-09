@@ -3,6 +3,10 @@ const router = express.Router()
 const schedule = require('../controllers/schedule.controller')
 const authJwt = require('../middleware/authJwt')
 
+router.get('/getByID',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    schedule.getByID)
+
 router.get('/getAll', 
     [authJwt.verifyToken, authJwt.isAdmin],
     schedule.getAll)

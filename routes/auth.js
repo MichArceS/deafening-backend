@@ -3,10 +3,10 @@ const router = express.Router()
 const auth = require('../controllers/auth.controller')
 const authJwt = require('../middleware/authJwt')
 
-router.post('/signup', [
+router.post('/signup', /*[
   authJwt.verifyToken,
   authJwt.isAdmin,
-  ],
+  ],*/
   auth.signup)
 
 router.post('/signin', auth.signin)

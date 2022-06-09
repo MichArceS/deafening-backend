@@ -3,6 +3,19 @@ const estilo = require('../models').Style
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
+exports.getByID = async function (req, res, next) {
+    try {
+        await estilo.findAll({
+                where: { id: req.query.id, state: 'A' }
+            })
+            .then(estilos => {
+                res.json(estilos)
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+}
+
 exports.getAll = async function (req, res, next) {
     try {
         await estilo.findAll({

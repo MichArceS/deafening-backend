@@ -3,6 +3,19 @@ const profesor = require('../models').Teacher
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
+exports.getByID = async function (req, res, next) {
+    try {
+        await profesor.findAll({
+                where: { id: req.query.id, state: 'A' }
+            })
+            .then(profesores => {
+                res.json(profesores)
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+}
+
 exports.getAll = async function (req, res, next) {
     try {
         await profesor.findAll({

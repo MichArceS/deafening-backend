@@ -3,6 +3,10 @@ const router = express.Router()
 const authJwt = require('../middleware/authJwt')
 const payment = require('../controllers/payment.controller')
 
+router.get('/getByID',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    payment.getByID)
+
 router.get('/getAll',
     [authJwt.verifyToken, authJwt.isAdmin],
     payment.getAll)

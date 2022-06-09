@@ -3,6 +3,19 @@ const horario = require('../models').Schedule
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
+exports.getByID = async function (req, res, next) {
+    try {
+        await horario.findAll({
+                where: { id: req.query.id, state: 'A' }
+            })
+            .then(horarios => {
+                res.json(horarios)
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+}
+
 exports.getAll = async function (req, res, next) {
     try {
         await horario.findAll({

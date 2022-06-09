@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     state: {
-      type: DataTypes.CHAR,
+      type: DataTypes.CHAR(1),
       defaultValue: 'A'
     },
     audCreatedAt: {

@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     fecha_nacimiento: DataTypes.STRING,
     foto: DataTypes.BLOB,
     state: {
-      type: DataTypes.CHAR,
+      type: DataTypes.CHAR(1),
       defaultValue: 'A'
     },
     audCreatedAt: {
