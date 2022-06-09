@@ -64,7 +64,7 @@ exports.update = async function (req, res, next) {
                 nombre: req.body.nombre,
                 apellido: req.body.apellido,
                 cedula: req.body.cedula,
-                codigo: code,
+                codigo: req.body.codigo,
                 correo: req.body.correo,
                 convencional: req.body.convencional,
                 fecha_nacimiento: req.body.fecha,
