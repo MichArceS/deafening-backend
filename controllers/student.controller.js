@@ -49,6 +49,13 @@ exports.new = async function (req, res, next) {
                 foto: Buffer.from(req.file.buffer),
                 id_representante: req.body.representante ? parseInt(req.body.representante): null
             }, { transaction: t }).then(async (est) => {
+                await paquetesRegistro.create({
+                    fecha: Date.now(),
+                    pago_total: parseFloat(req.body.pago),
+                    horas_restantes: parseInt(req.body.horas),
+                    id_estudiante: est.id,
+                    id_paquete: parseInt(req.body.paquete),
+                })
                 res.status(200).send({ message: 'Succesfully created' })
             })
         })
