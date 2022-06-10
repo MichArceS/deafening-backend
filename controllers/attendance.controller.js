@@ -41,16 +41,20 @@ exports.new = async function (req, res, next) {
                 state: 'A'
             }
         })
-        let nuevaHora = paquetesRegistro.horas_restantes - 1
+
+        let nuevaHora = paquetesRegistros.horas_restantes - 1
+
         if (nuevaHora <= -1) {
             res.status(419).send({ message: 'Error' })
         }
+
         await asistencia.create({
             fecha: Date.parse(req.body.fecha),
             is_recuperando: req.body.recuperando,
             id_estudiante: parseInt(req.body.estudiante),
             id_clase: parseInt(req.body.clase),
         })
+
         if (nuevaHora == 0) {
             await paquetesRegistro.update({
                 pago_total: 0,
@@ -61,12 +65,14 @@ exports.new = async function (req, res, next) {
             })
             res.json({ completed: true, horas_restantes: nuevaHora })
         }
+
         await paquetesRegistro.update({
             horas_restantes: nuevaHora,
             audUpdatedAt: Date.now()
         }, {
             where: { id: paquetesRegistros.id }
         })
+
         res.json({ completed: false, horas_restantes: nuevaHora })
     } catch (error) {
         res.status(400).send({ message: error.message })

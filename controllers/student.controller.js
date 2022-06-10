@@ -2,6 +2,7 @@
 const estudiante = require('../models').Student
 const representante = require('../models').Representative
 const paquetesRegistro = require('../models').PackRegister
+const paquete = require('../models').Pack;
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
@@ -33,8 +34,16 @@ exports.new = async function (req, res, next) {
         else
             str = maxInt + ""
         let code = initialN + initialS + str
+
+        var pack = await paquete.findOne({
+            where: {
+                id: parseInt(req.body.paquete),
+                state: 'A'
+            }
+        })
+
         await Sequelize.sequelize.transaction(async (t) => {
-            await estudiante.create({
+            const student = await estudiante.create({
                 nombre: req.body.nombre,
                 apellido: req.body.apellido,
                 cedula: req.body.cedula,
@@ -48,16 +57,16 @@ exports.new = async function (req, res, next) {
                 direccion: req.body.direccion,
                 foto: Buffer.from(req.file.buffer),
                 id_representante: req.body.representante ? parseInt(req.body.representante): null
-            }, { transaction: t }).then(async (est) => {
-                await paquetesRegistro.create({
-                    fecha: Date.now(),
-                    pago_total: parseFloat(req.body.pago),
-                    horas_restantes: parseInt(req.body.horas),
-                    id_estudiante: est.id,
-                    id_paquete: parseInt(req.body.paquete),
-                })
-                res.status(200).send({ message: 'Succesfully created' })
-            })
+            }, { transaction: t });
+
+            await paquetesRegistro.create({
+                fecha: Date.now(),
+                pago_total: parseFloat(req.body.pago),
+                horas_restantes: parseInt(pack.horas_por_mes),
+                id_estudiante: student.id,
+                id_paquete: parseInt(req.body.paquete),
+            }, { transaction: t })
+            res.status(200).send({ message: 'Succesfully created' })
         })
     } catch (error) {
         res.status(400).send({ message: error.message })
