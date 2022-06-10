@@ -10,17 +10,15 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Pack.belongsTo(models.Schedule, { foreignKey: 'id_schedule'})
     }
   };
   Pack.init({
     nombre: DataTypes.STRING,
     precio: DataTypes.FLOAT,
-    id_schedule: {
-      field: 'id_schedule',
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
+    horas_por_mes: DataTypes.INTEGER,
+    horas_por_semana: DataTypes.INTEGER,
+    numero_estilos: DataTypes.INTEGER,
+    numero_kpop: DataTypes.INTEGER,
     state: {
       type: DataTypes.CHAR(1),
       defaultValue: 'A'

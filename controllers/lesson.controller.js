@@ -1,6 +1,6 @@
 
 const clase = require('../models').Lesson
-const claseEstudiante = require('../models').StudentLesson
+const claseEstudiante = require('../models').Attendance
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
@@ -25,7 +25,7 @@ exports.new = async function (req, res, next) {
             await clase.create({
                 id_teacher: parseInt(req.body.profesor),
                 id_style: parseInt(req.body.estilo),
-                id_user: parseInt(req.body.usuario),
+                id_schedule: parseInt(req.body.horario),
                 fecha: Date.parse(req.body.fecha),
             }, { transaction: t }).then(async (cl) => {
                 res.status(200).send({ message: 'Succesfully created' })
@@ -42,7 +42,7 @@ exports.update = async function (req, res, next) {
             const p = await clase.update({
                 id_teacher: parseInt(req.body.profesor),
                 id_style: parseInt(req.body.estilo),
-                id_user: parseInt(req.body.usuario),
+                id_schedule: parseInt(req.body.horario),
                 fecha: Date.parse(req.body.fecha),
                 audUpdatedAt: Date.now()
             }, {
@@ -88,7 +88,7 @@ exports.getByID = async function (req, res, next) {
 exports.getByUserID = async function (req, res, next) {
     try {
         await claseEstudiante.findAll({
-                where: { id_student: parseInt(req.query.usuario), state: 'A' },
+                where: { id_estudiante: parseInt(req.query.usuario), state: 'A' },
                 include: [{
                     model: clase, required: true, where: { state: 'A' } 
                 }]

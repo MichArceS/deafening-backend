@@ -38,7 +38,10 @@ exports.new = async function (req, res, next) {
             await paquete.create({
                 nombre: req.body.nombre,
                 precio: parseFloat(req.body.precio),
-                id_schedule: parseInt(req.body.horario),
+                horas_por_mes: parseFloat(req.body.horas_por_mes),
+                horas_por_semana: parseFloat(req.body.horas_por_semana),
+                numero_estilos: parseFloat(req.body.numero_estilos),
+                numero_kpop: parseFloat(req.body.numero_kpop),
             }, { transaction: t }).then(async (paq) => {
                 res.status(200).send({ message: 'Succesfully created' })
             })
@@ -54,7 +57,10 @@ exports.update = async function (req, res, next) {
             const p = await paquete.update({
                 nombre: req.body.nombre,
                 precio: parseFloat(req.body.precio),
-                id_schedule: parseInt(req.body.horario),
+                horas_por_mes: parseFloat(req.body.horas_por_mes),
+                horas_por_semana: parseFloat(req.body.horas_por_semana),
+                numero_estilos: parseFloat(req.body.numero_estilos),
+                numero_kpop: parseFloat(req.body.numero_kpop),
                 audUpdatedAt: Date.now()
             }, {
                 where: { id: parseInt(req.body.id, 10) }

@@ -49,6 +49,7 @@ exports.new = async function (req, res, next) {
             fecha: Date.parse(req.body.fecha),
             is_recuperando: req.body.recuperando,
             id_estudiante: parseInt(req.body.estudiante),
+            id_clase: parseInt(req.body.clase),
         })
         if (nuevaHora == 0) {
             await paquetesRegistro.update({
@@ -79,6 +80,7 @@ exports.update = async function (req, res, next) {
                 fecha: Date.parse(req.body.fecha),
                 is_recuperando: parseInt(req.body.recuperando),
                 id_estudiante: parseInt(req.body.estudiante),
+                id_clase: parseInt(req.body.clase),
                 audUpdatedAt: Date.now()
             }, {
                 where: { id: parseInt(req.body.id, 10) }
