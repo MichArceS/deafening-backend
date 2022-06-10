@@ -8,7 +8,7 @@ router.get('/getByID',
     lesson.getByID)
 
 router.get('/getAll',
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken],
     lesson.getAll)
 
 router.post('/new', 
