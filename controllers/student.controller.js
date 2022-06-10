@@ -107,7 +107,7 @@ exports.getByID = async function (req, res, next) {
         await estudiante.findAll({
                 where: { codigo: req.query.codigo, state: 'A' },
                 include: [{
-                    model: representante, required: true, where: { state: 'A' }, attributes: ['id', 'nombre', 'apellido']
+                    model: representante, required: false, where: { state: 'A' }, attributes: ['id', 'nombre', 'apellido']
                 }]
             })
             .then(estudiantes => {
