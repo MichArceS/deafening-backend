@@ -51,6 +51,7 @@ exports.new = async function (req, res, next) {
             }, { transaction: t }).then(async (est) => {
                 await paquetesRegistro.create({
                     fecha: Date.now(),
+                    pago_total: parseFloat(req.body.pago),
                     horas_restantes: parseInt(req.body.horas),
                     id_estudiante: est.id,
                     id_paquete: parseInt(req.body.paquete),
