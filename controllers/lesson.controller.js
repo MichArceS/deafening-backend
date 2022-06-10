@@ -1,5 +1,8 @@
 
 const clase = require('../models').Lesson
+const horario = require('../models').Schedule
+const profesor = require('../models').Teacher
+const estilo = require('../models').Style
 const claseEstudiante = require('../models').Attendance
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
@@ -9,7 +12,10 @@ exports.getAll = async function (req, res, next) {
         await clase.findAll({
             where: {
                 state: 'A'
-            }
+            },
+            include:[{model:profesor,required: true, where: {state: 'A'}},
+                    {model:estilo,required: true, where: {state: 'A'}},
+                    {model:horario,required: true, where: {state: 'A'}}]
         })
             .then(clases => {
                 res.json(clases)
