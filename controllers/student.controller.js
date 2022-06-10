@@ -108,8 +108,6 @@ exports.getByID = async function (req, res, next) {
                 where: { codigo: req.query.codigo, state: 'A' },
                 include: [{
                     model: representante, required: true, where: { state: 'A' }, attributes: ['id', 'nombre', 'apellido']
-                }, {
-                    model: paquetesRegistro, required: true
                 }]
             })
             .then(estudiantes => {
