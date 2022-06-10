@@ -7,6 +7,7 @@ router.post('/signup', /*[
   authJwt.verifyToken,
   authJwt.isAdmin,
   ],*/
+            
   auth.signup)
 
 router.post('/signin', auth.signin)
