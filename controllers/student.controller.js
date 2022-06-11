@@ -11,8 +11,7 @@ exports.getAll = async function (req, res, next) {
         await estudiante.findAll({
             where: {
                 state: 'A'
-            },
-            attributes: {exclude: ['foto']}
+            }
         })
             .then(estudiantes => {
                 res.json(estudiantes)
