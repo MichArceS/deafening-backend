@@ -2,7 +2,7 @@
 const asistencia = require('../models').Attendance
 const paquetesRegistro = require('../models').PackRegister
 const Sequelize = require('../models')
-const Op = require('sequelize').Op
+const Op = require('sequelize').Op 
 
 exports.getByID = async function (req, res, next) {
     try {
