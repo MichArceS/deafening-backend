@@ -46,6 +46,7 @@ exports.new = async function (req, res, next) {
 
         if (nuevaHora <= -1) {
             res.status(419).send({ message: 'Error' })
+            return
         }
 
         await asistencia.create({
@@ -64,6 +65,7 @@ exports.new = async function (req, res, next) {
                 where: { id: paquetesRegistros.id }
             })
             res.json({ completed: true, horas_restantes: nuevaHora })
+            return
         }
 
         await paquetesRegistro.update({
@@ -72,8 +74,8 @@ exports.new = async function (req, res, next) {
         }, {
             where: { id: paquetesRegistros.id }
         })
-
         res.json({ completed: false, horas_restantes: nuevaHora })
+        return
     } catch (error) {
         res.status(400).send({ message: error.message })
     }
