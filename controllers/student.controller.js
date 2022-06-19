@@ -7,14 +7,19 @@ const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
 exports.getAll = async function (req, res, next) {
+    const studentsCount = await estudiante.count();
+    res.set('X-Total-Count', studentsCount);
     try {
         await estudiante.findAll({
+            limit: req.query.limit,
+            offset: req.query.offset,
             where: {
                 state: 'A'
             }
         })
             .then(estudiantes => {
                 res.json(estudiantes)
+                res
             })
     } catch (error) {
         res.status(400).send({ message: error.message })
@@ -55,7 +60,7 @@ exports.new = async function (req, res, next) {
                 telefono_emergencia: req.body.telefono_emergencia,
                 alergias: req.body.alergias,
                 direccion: req.body.direccion,
-                foto: Buffer.from(req.file.buffer),
+                foto: req.file ? Buffer.from(req.file.buffer) : null,
                 id_representante: req.body.representante ? parseInt(req.body.representante): null
             }, { transaction: t });
 
@@ -65,8 +70,9 @@ exports.new = async function (req, res, next) {
                 horas_restantes: parseInt(pack.horas_por_mes),
                 id_estudiante: student.id,
                 id_paquete: parseInt(req.body.paquete),
-            }, { transaction: t })
-            res.status(200).send({ message: 'Succesfully created' })
+            }, { transaction: t });
+            
+            res.status(200).send({ message: 'Succesfully created', studentCode: code  })
         })
     } catch (error) {
         res.status(400).send({ message: error.message })
