@@ -26,6 +26,22 @@ exports.getAll = async function (req, res, next) {
     }
 }
 
+exports.get = async function (req, res, next) {
+    try {
+        await estudiante.findAll({
+                where: { id: req.query.estudiante },
+                include: [{
+                    model: representante, required: false, where: { state: 'A' }, attributes: ['id', 'nombre', 'apellido']
+                }]
+            })
+            .then(estudiantes => {
+                res.json(estudiantes)
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+}
+
 exports.new = async function (req, res, next) {
     try {
         let initialN = req.body.nombre.charAt(0)

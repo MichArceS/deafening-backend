@@ -17,8 +17,12 @@ exports.getByID = async function (req, res, next) {
 }
 
 exports.getAll = async function (req, res, next) {
+    const styleCount = await estilo.count();
+    res.set('X-Total-Count', styleCount);
     try {
         await estilo.findAll({
+            limit: req.query.limit,
+            offset: req.query.offset,
             where: {
                 state: 'A'
             }
@@ -36,7 +40,7 @@ exports.new = async function (req, res, next) {
         await Sequelize.sequelize.transaction(async (t) => {
             await estilo.create({
                 nombre: req.body.nombre,
-                descripcion: req.body.cedula
+                descripcion: req.body.descripcion
             }, { transaction: t }).then(async (est) => {
                 res.status(200).send({ message: 'Succesfully created' })
             })
