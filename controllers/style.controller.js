@@ -55,7 +55,7 @@ exports.update = async function (req, res, next) {
         await Sequelize.sequelize.transaction(async (t) => {
             const p = await estilo.update({
                 nombre: req.body.nombre,
-                descripcion: req.body.cedula,
+                descripcion: req.body.descripcion,
                 audUpdatedAt: Date.now()
             }, {
                 where: { id: parseInt(req.body.id, 10) }
