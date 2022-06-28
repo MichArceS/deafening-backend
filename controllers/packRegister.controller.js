@@ -1,6 +1,7 @@
 
 const paquetesRegistro = require('../models').PackRegister
 const Sequelize = require('../models')
+const paquete = require('../models').Pack;
 const Op = require('sequelize').Op
 
 exports.getByID = async function (req, res, next) {
@@ -33,12 +34,23 @@ exports.getAll = async function (req, res, next) {
 
 
 exports.new = async function (req, res, next) {
+    
     try {
+
+        var pack = await paquete.findOne({
+            where: {
+                id: parseInt(req.body.paquete),
+                state: 'A'
+            }
+        })
+
         await Sequelize.sequelize.transaction(async (t) => {
             await paquetesRegistro.create({
-                fecha: Date.parse(req.body.fecha),
+                fecha: Date.now(),
                 pago_total: parseFloat(req.body.pago),
-                horas_restantes: parseInt(req.body.horas),
+                horas_restantes: parseInt(pack.horas_por_mes),
+                id_estudiante: req.body.estudiante,
+                id_paquete: parseInt(req.body.paquete),
             }, { transaction: t }).then(async (assis) => {
                 res.status(200).send({ message: 'Succesfully created' })
             })
