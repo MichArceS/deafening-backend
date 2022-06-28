@@ -18,8 +18,12 @@ exports.getByID = async function (req, res, next) {
 }
 
 exports.getAll = async function (req, res, next) {
+    const teachersCount = await profesor.count();
+    res.set('X-Total-Count', teachersCount);
     try {
         await profesor.findAll({
+            limit: req.query.limit,
+            offset: req.query.offset,
             where: {
                 state: 'A'
             }
