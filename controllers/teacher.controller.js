@@ -1,5 +1,6 @@
 
 const profesor = require('../models').Teacher
+const profesorEstilo = require('../models').TeacherStyle
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
@@ -34,15 +35,27 @@ exports.getAll = async function (req, res, next) {
 
 exports.new = async function (req, res, next) {
     try {
+        console.log(req.body)
         await Sequelize.sequelize.transaction(async (t) => {
-            await profesor.create({
+            const teacher = await profesor.create({
                 nombre: req.body.nombre,
                 cedula: req.body.cedula,
                 correo: req.body.correo,
                 fecha_nacimiento: req.body.nacimiento,
-            }, { transaction: t }).then(async (pro) => {
-                res.status(200).send({ message: 'Succesfully created' })
-            })
+            }, { transaction: t });
+
+        const styles = req.body.estilos;
+        for (const style of styles) {
+            await profesorEstilo.create(
+                {
+                    id_teacher: parseInt(teacher.id),
+                    id_style: parseInt(style),
+                },
+                { transaction: t }
+                );
+          }
+
+        res.status(200).send({ message: 'Succesfully created' })
         })
     } catch (error) {
         res.status(400).send({ message: error.message })
