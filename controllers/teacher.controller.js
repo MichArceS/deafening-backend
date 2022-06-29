@@ -42,7 +42,6 @@ exports.getAll = async function (req, res, next) {
 
 exports.new = async function (req, res, next) {
     try {
-        console.log(req.body)
         await Sequelize.sequelize.transaction(async (t) => {
             const teacher = await profesor.create({
                 nombre: req.body.nombre,

@@ -1,5 +1,6 @@
 
 const pago = require('../models').Payment
+const profesor = require('../models').Teacher
 const Sequelize = require('../models')
 const Op = require('sequelize').Op
 
@@ -18,10 +19,17 @@ exports.getByID = async function (req, res, next) {
 
 exports.getAll = async function (req, res, next) {
     try {
+        const paymentsCount = await pago.count();
+        res.set('X-Total-Count', paymentsCount);
         await pago.findAll({
+            limit: req.query.limit,
+            offset: req.query.offset,
             where: {
                 state: 'A'
-            }
+            },
+            include: [{
+                model: profesor, required: true, where: { state: 'A' }, attributes: ['nombre']
+            }],
         })
             .then(pagos => {
                 res.json(pagos)
@@ -34,11 +42,12 @@ exports.getAll = async function (req, res, next) {
 
 exports.new = async function (req, res, next) {
     try {
+        console.log(req.body);
         await Sequelize.sequelize.transaction(async (t) => {
             await pago.create({
-                fecha: Date.parse(req.body.fecha),
+                fecha: req.body.fecha,
                 horas: parseInt(req.body.horas),
-                pago_total: parseInt(req.body.pago),
+                pagoTotal: parseInt(req.body.pago),
                 id_teacher: parseInt(req.body.profesor),
             }, { transaction: t }).then(async (pag) => {
                 res.status(200).send({ message: 'Succesfully created' })
@@ -53,9 +62,9 @@ exports.update = async function (req, res, next) {
     try {
         await Sequelize.sequelize.transaction(async (t) => {
             const p = await pago.update({
-                fecha: Date.parse(req.body.fecha),
+                fecha: req.body.fecha,
                 horas: parseInt(req.body.horas),
-                pago_total: parseInt(req.body.pago),
+                pagoTotal: parseInt(req.body.pago),
                 id_teacher: parseInt(req.body.profesor),
                 audUpdatedAt: Date.now()
             }, {
