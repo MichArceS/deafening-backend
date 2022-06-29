@@ -7,6 +7,10 @@ router.get('/getByID',
     [authJwt.verifyToken, authJwt.isAdmin],
     teacher.getByID)
 
+router.get('/getByCedula',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    teacher.getByCedula)
+
 router.get('/getAll', 
     [authJwt.verifyToken, authJwt.isAdmin],
     teacher.getAll)

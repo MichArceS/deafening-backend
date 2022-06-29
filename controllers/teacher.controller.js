@@ -143,3 +143,19 @@ exports.disable = async function (req, res, next) {
         res.status(400).send({ message: error.message })
     }
 }
+
+exports.getByCedula = async function (req, res, next) {
+    try {
+        console.log('entered');
+        await profesor.findAll({
+                where: { cedula: { [Op.iLike]: '%' + req.query.cedula + '%' }, state: 'A' },
+                attributes: ['id', 'nombre']
+            })
+            .then(profesores => {
+                res.json(profesores)
+            })
+    } catch (error) {
+        res.status(400).send({ message: error.message })
+    }
+}
+
